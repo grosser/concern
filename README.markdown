@@ -40,7 +40,7 @@ Delegate usage:
         def read_message ...
       end
 
-      concern 'a/acl', :delegate => :true # all public
+      concern 'a/acl', :delegate => true # all public
       concern 'a/messages', :delegate => [:write_message]
     end
 
