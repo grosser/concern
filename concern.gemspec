@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{concern}
-  s.version = "0.1.0"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Michael Grosser"]
@@ -16,13 +16,16 @@ Gem::Specification.new do |s|
     "README.markdown",
      "Rakefile.rb",
      "VERSION",
+     "concern.gemspec",
      "init.rb",
      "lib/concern.rb",
      "spec/concern_spec.rb",
      "spec/examples/a/b.rb",
+     "spec/examples/adding.rb",
      "spec/examples/delegate.rb",
      "spec/examples/inline.rb",
      "spec/examples/load.rb",
+     "spec/examples/parent_warning.rb",
      "spec/examples/picky_delegate.rb"
   ]
   s.homepage = %q{http://github.com/grosser/concern}
@@ -31,9 +34,11 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.4}
   s.summary = %q{Seperation of concerns without meta-madness and namespace pollution}
   s.test_files = [
-    "spec/examples/picky_delegate.rb",
+    "spec/examples/adding.rb",
+     "spec/examples/picky_delegate.rb",
      "spec/examples/inline.rb",
      "spec/examples/load.rb",
+     "spec/examples/parent_warning.rb",
      "spec/examples/delegate.rb",
      "spec/examples/a/b.rb",
      "spec/concern_spec.rb"
