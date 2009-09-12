@@ -14,4 +14,12 @@ describe "Concern" do
   it "can delegate some" do
     `ruby spec/examples/picky_delegate.rb`.should == "hello"
   end
+
+  it "add to parent" do
+    `ruby spec/examples/adding.rb`.should == "yepworld"
+  end
+
+  it "warns when parent is not Concern" do
+    `ruby spec/examples/parent_warning.rb`.should == "SUCCESS"
+  end
 end

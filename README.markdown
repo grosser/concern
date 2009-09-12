@@ -34,7 +34,6 @@ Normal usage:
 
 Delegate usage:
 
-    # a.rb
     class A
       class Message
         def write_message ...
@@ -48,6 +47,30 @@ Delegate usage:
     A.new.can_access?(BankAccount)
     A.new.write_message
     A.new.message.read_message
+
+Adding to concerned:
+    class A
+      class B < Concern
+        def initialize
+          super
+          @something = {}
+        end
+
+        def self.included(base)
+          base.class_eval do
+            test
+          end
+        end
+      end
+
+      def self.test
+        puts "it works"
+      end
+
+      concern 'a/b'
+    end
+
+More examples can be found in [spec/examples](http://github.com/grosser/concern/tree/master/spec/examples)
 
 Author
 ======

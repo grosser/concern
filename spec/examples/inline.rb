@@ -1,5 +1,6 @@
 $LOAD_PATH << 'lib'
 require 'concern'
+
 class A
   class B < Concern
     def test

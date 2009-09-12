@@ -20,6 +20,10 @@ class Object
       klass = eval(klass)
     end
 
+    unless klass.instance_methods.map{|x|x.to_s}.include?('concerned=')
+      raise "A concern must always extend Concern"
+    end
+
     # make accessor
     accessor = lib.split('/').last.to_sym
     eval <<-EOF
@@ -30,6 +34,10 @@ class Object
         @#{accessor}
       end
     EOF
+
+    # call included
+    base = eval(name) #self.class is always Class, but name is class that called concern
+    klass.included(base) if klass.respond_to? :included
 
     # delegate methods
     if options[:delegate]

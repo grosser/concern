@@ -1,5 +1,6 @@
 $LOAD_PATH << 'lib' << 'spec/examples'
 require 'concern'
+
 class A
   def xxx
     'xxx'
