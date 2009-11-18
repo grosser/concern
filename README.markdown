@@ -5,8 +5,8 @@ With concern, everything stays in the Concern, can access the concerned and keep
 
 Install
 =======
-As Gem: ` sudo gem install grosser-concern -s http://gems.github.com `  
-Or as Rails plugin: ` script/plugins install git://github.com/grosser/concern.git `
+ - As Rails plugin: `script/plugin install git://github.com/grosser/concern.git `
+ - As gem: ` sudo gem install concern -s http://gemcutter.org `
 
 Usage
 =====
