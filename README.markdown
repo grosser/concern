@@ -6,11 +6,11 @@ With concern, everything stays in the Concern, can access the concerned and keep
 Install
 =======
  - As Rails plugin: `script/plugin install git://github.com/grosser/concern.git `
- - As gem: ` sudo gem install concern -s http://gemcutter.org `
+ - As gem: ` sudo gem install concern `
 
 Usage
 =====
-Normal usage:
+Simple usage:
     # a.rb
     require 'concern'
     class A
@@ -20,6 +20,7 @@ Normal usage:
     end
 
     # a/acl.rb
+    # can access concerned methods like `admin?`
     class A::ACL < Concern
       def can_access?(vault)
         admin? and secret
@@ -32,42 +33,36 @@ Normal usage:
 
     A.new.acl.can_access?(BankAccount)
 
-Delegate usage:
+Let no outsider know, and use delegate:
 
     class A
-      class Message
-        def write_message ...
-        def read_message ...
+      class Messages
+        def write ...
+        def read ...
       end
 
-      concern 'a/acl', :delegate => true # all public
-      concern 'a/messages', :delegate => [:write_message]
+      concern 'a/acl', :delegate => true # all public concern methods
+      concern 'a/messages', :delegate => [:write]
     end
 
-    A.new.can_access?(BankAccount)
-    A.new.write_message
-    A.new.message.read_message
+    A.new.can_access?(BankAccount) # no more `.acl` needed
+    A.new.write
+    A.new.messages.read
 
-Adding to concerned:
-    class A
-      class B < Concern
-        def initialize
-          super
-          @something = {}
-        end
+Adding to the concerned, e.g. validations/associations/scopes etc.
+    class User < ActiveRecord::Base
+      concern 'user/validator', :delegate => true
+    end
 
-        def self.included(base)
-          base.class_eval do
-            test
-          end
+    # user/validator.rb
+    class User::Validator < Concern
+      def self.included(concerned)
+        concerned.class_eval do
+          validates_presence_of :name, :if => :name_seems_legit?
         end
       end
 
-      def self.test
-        puts "it works"
-      end
-
-      concern 'a/b'
+      def name_seems_legit? ..
     end
 
 More examples can be found in [spec/examples](http://github.com/grosser/concern/tree/master/spec/examples)
