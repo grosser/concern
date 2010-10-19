@@ -4,7 +4,7 @@ class Concern
   attr_accessor :concerned
 
   def self.classify(lib)
-    lib.split('/').map{|part| part.capitalize }.join('::')
+    lib.split('/').map{|part| part.gsub(/(?:^|_)(.)/){ $1.upcase } }.join('::')
   end
 end
 

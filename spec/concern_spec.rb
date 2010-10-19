@@ -1,10 +1,18 @@
 describe "Concern" do
-  it "loads the correct file" do
+  it "loads a simple file" do
     `ruby spec/examples/load.rb`.should == "hello"
+  end
+
+  it "requires a complex file" do
+    `ruby spec/examples/complex_require.rb`.should == "SUCCESS"
   end
 
   it "can use already present class" do
     `ruby spec/examples/inline.rb`.should == "inline"
+  end
+
+  it "can use complex present class" do
+    `ruby spec/examples/complex_inline.rb`.should == "SUCCESS"
   end
 
   it "can delegate" do
