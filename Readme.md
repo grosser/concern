@@ -1,16 +1,16 @@
-Seperation of concerns without meta-madness and namespace pollution.  
+Seperation of concerns with clean namespaces.  
 
 Normal includes and extensions pollute the namespace and share private/protected.  
 With concern, everything stays in the Concern, can access the concerned and keep namespaced+private.
 
 Install
 =======
- - As Rails plugin: `script/plugin install git://github.com/grosser/concern.git `
- - As gem: ` sudo gem install concern `
+ - As Rails plugin: `rails plugin install git://github.com/grosser/concern.git `
+ - As gem: ` gem install concern `
 
 Usage
 =====
-Simple usage:
+Simple:
     # a.rb
     require 'concern'
     class A
@@ -41,7 +41,7 @@ Let no outsider know, and use delegate:
         def read ...
       end
 
-      concern 'a/acl', :delegate => true # all public concern methods
+      concern 'a/acl', :delegate => true # delegate all public methods
       concern 'a/messages', :delegate => [:write]
     end
 
@@ -69,6 +69,6 @@ More examples can be found in [spec/examples](http://github.com/grosser/concern/
 
 Author
 ======
-[Michael Grosser](http://pragmatig.wordpress.com)  
+[Michael Grosser](http://grosser.it)  
 grosser.michael@gmail.com  
 Hereby placed under public domain, do what you want, just do not hold me accountable...
