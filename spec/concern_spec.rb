@@ -30,4 +30,12 @@ describe "Concern" do
   it "warns when parent is not Concern" do
     `ruby spec/examples/parent_warning.rb`.should == "SUCCESS"
   end
+  
+  it "shouldn't pollute the global namespace" do
+    `ruby spec/examples/pollution.rb`.should == "SUCCESS"
+  end
+  
+  it "should delegate blocks" do
+    `ruby spec/examples/blocks.rb`.should == "SUCCESS"
+  end
 end
