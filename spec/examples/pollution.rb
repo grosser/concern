@@ -17,7 +17,7 @@ class C
   concern 'c/d', :delegate => true
 end
 
-if Object.instance_methods.include?("random_method_name") && Object.instance_methods.include?("random_method_name2")
+if Object.instance_methods.include?("random_method_name") or Object.instance_methods.include?("random_method_name2")
   print "FAIL"
 else
   print "SUCCESS"
