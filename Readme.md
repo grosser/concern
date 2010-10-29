@@ -67,8 +67,12 @@ Adding to the concerned, e.g. validations/associations/scopes etc.
 
 More examples can be found in [spec/examples](http://github.com/grosser/concern/tree/master/spec/examples)
 
-Author
-======
+Authors
+=======
+
+### [Contributors](http://github.com/grosser/concern/contributors)
+ - [Colin Curtin](http://github.com/perplexes)
+
 [Michael Grosser](http://grosser.it)  
 grosser.michael@gmail.com  
 Hereby placed under public domain, do what you want, just do not hold me accountable...
