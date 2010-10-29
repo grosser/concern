@@ -7,8 +7,8 @@ class Concern
     lib.split('/').map{|part| part.gsub(/(?:^|_)(.)/){ $1.upcase } }.join('::')
   end
   
-  module SingletonMethods
-    def inner_concern(lib, options={})
+  module ClassMethods
+    def concern(lib, options={})
       # load delegate
       lib = lib.to_s
       klass = Concern.classify(lib)
@@ -58,9 +58,4 @@ class Concern
   end
 end
 
-class Object
-  def self.concern(lib, options={})
-    extend(Concern::SingletonMethods) unless self.methods.include?("inner_concern")
-    self.inner_concern(lib, options)
-  end
-end
+Object.send(:extend, Concern::ClassMethods)
