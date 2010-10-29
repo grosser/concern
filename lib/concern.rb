@@ -7,7 +7,7 @@ class Concern
     lib.split('/').map{|part| part.gsub(/(?:^|_)(.)/){ $1.upcase } }.join('::')
   end
 
-  def self.find_class_from_lib(lib)
+  def self.class_from_lib(lib)
     lib = lib.to_s
     klass = Concern.classify(lib)
     begin
@@ -22,36 +22,39 @@ class Concern
     end
     klass
   end
+
+  def self.add_accessor_for_concern(concerned, accessor, concern)
+    concerned.class_eval <<-EOF, __FILE__, __LINE__
+      def #{accessor}
+        return @#{accessor} if @#{accessor}
+        @#{accessor} = #{concern}.new
+        @#{accessor}.concerned = self
+        @#{accessor}
+      end
+    EOF
+  end
   
   module ClassMethods
     def concern(lib, options={})
-      klass = Concern.find_class_from_lib(lib)
-
-      # make accessor
+      concern = Concern.class_from_lib(lib)
       accessor = lib.split('/').last.to_sym
-      class_eval <<-EOF, __FILE__, __LINE__
-        def #{accessor}
-          return @#{accessor} if @#{accessor}
-          @#{accessor} = #{klass}.new
-          @#{accessor}.concerned = self
-          @#{accessor}
-        end
-      EOF
 
-      # call included
-      base = eval(name) #self.class is always Class, but name is class that called concern
-      klass.included(base) if klass.respond_to? :included
+      Concern.add_accessor_for_concern(self, accessor, concern)
 
-      # delegate methods
+      # tell the concern it was included
+      concerned = eval(name) #self.class is always Class, but name is class that called concern
+      concern.included(concerned) if concern.respond_to? :included
+
+      # delegate methods calls to the concern
       if options[:delegate]
-        methods = if options[:delegate].is_a?(Array)
+        methods_to_delegate = if options[:delegate].is_a?(Array)
           options[:delegate]
         else
-          klass.public_instance_methods(false)
+          concern.public_instance_methods(false)
         end
 
-        methods.each do |method|
-          class_eval <<-EOF
+        methods_to_delegate.each do |method|
+          class_eval <<-EOF, __FILE__, __LINE__
             def #{method}(*args, &block)
               #{accessor}.send(:#{method}, *args, &block)
             end
