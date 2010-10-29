@@ -6,22 +6,26 @@ class Concern
   def self.classify(lib)
     lib.split('/').map{|part| part.gsub(/(?:^|_)(.)/){ $1.upcase } }.join('::')
   end
+
+  def self.find_class_from_lib(lib)
+    lib = lib.to_s
+    klass = Concern.classify(lib)
+    begin
+      klass = eval(klass)
+    rescue
+      require lib
+      klass = eval(klass)
+    end
+
+    unless klass.instance_methods.map{|x|x.to_s}.include?('concerned=')
+      raise "A concern must always extend Concern"
+    end
+    klass
+  end
   
   module ClassMethods
     def concern(lib, options={})
-      # load delegate
-      lib = lib.to_s
-      klass = Concern.classify(lib)
-      begin
-        klass = eval(klass)
-      rescue
-        require lib
-        klass = eval(klass)
-      end
-
-      unless klass.instance_methods.map{|x|x.to_s}.include?('concerned=')
-        raise "A concern must always extend Concern"
-      end
+      klass = Concern.find_class_from_lib(lib)
 
       # make accessor
       accessor = lib.split('/').last.to_sym
